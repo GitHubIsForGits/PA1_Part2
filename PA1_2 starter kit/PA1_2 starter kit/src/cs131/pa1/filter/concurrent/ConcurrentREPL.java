@@ -3,7 +3,7 @@ package cs131.pa1.filter.concurrent;
 import cs131.pa1.filter.Message;
 import java.util.Scanner;
 
-public class ConcurrentREPL {
+public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100% sure yet.
 
 	static String currentWorkingDirectory;
 	
