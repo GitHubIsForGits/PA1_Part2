@@ -10,7 +10,7 @@ public class ConcurrentCommandBuilder {
 	
 	public static ConcurrentFilter createFiltersFromCommand(String command){
 		//initialize the list that will hold all of the filters
-				List<ConcurrentFilter> filters = new LinkedList<ConcurrentFilter>();
+				List<ConcurrentFilter> filters = new LinkedList<ConcurrentFilter>();//This should be changed to LinkedBlockingQueue
 				//adding whitespace so that string splitting doesn't bug
 				command = " " + command + " ";
 				//removing the final filter here
@@ -23,7 +23,7 @@ public class ConcurrentCommandBuilder {
 				for(int i = 0; i < commands.length; i++) {
 					ConcurrentFilter filter = constructFilterFromSubCommand(commands[i].trim());
 					if(filter != null) {
-						filters.add(filter);
+						filters.add(filter); //With threads we may have to connect this differently.
 					} else {
 						return null;
 					}
@@ -114,8 +114,8 @@ public class ConcurrentCommandBuilder {
 		return filter;
 	}
 
-	private static boolean linkFilters(List<ConcurrentFilter> filters, String command){
-		Iterator<ConcurrentFilter> iter = filters.iterator();
+	private static boolean linkFilters(List<ConcurrentFilter> filters, String command){ //We have to make this threadier
+		Iterator<ConcurrentFilter> iter = filters.iterator();//I think this method should be used to call join() on our thready filters.
 		ConcurrentFilter prev;
 		ConcurrentFilter curr = iter.next();
 		String[] cmdlist = command.split("\\|");	//command is brought in so we can output proper error messages

@@ -59,13 +59,15 @@ public abstract class ConcurrentFilter extends Filter implements Runnable {
 	
 	
 	//New stuff
-	@Override
+	@Override 
 	public void run() {//Run contains all code that should be executed by the thread. This is the best I've got for now.
+		
 		this.process(); //We just want our run to begin executing the code the filter represents.
 		//Don't call run directly. To start threads make a thread with Thread t = new Thread(FilterOfTheProperType())
 		//t.start(); will get the thread going.
 	}
 	
+
 	
 	
 	

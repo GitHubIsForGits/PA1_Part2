@@ -21,7 +21,7 @@ public class ConcurrentREPL {
 			} else if(!command.trim().equals("")) {
 				//building the filters list from the command
 				ConcurrentFilter filterlist = ConcurrentCommandBuilder.createFiltersFromCommand(command);
-				while(filterlist != null) {
+				while(filterlist != null) {//The execution of the command. I believe this is where we .start stuff.
 					filterlist.process();
 					filterlist = (ConcurrentFilter) filterlist.getNext();
 				}
