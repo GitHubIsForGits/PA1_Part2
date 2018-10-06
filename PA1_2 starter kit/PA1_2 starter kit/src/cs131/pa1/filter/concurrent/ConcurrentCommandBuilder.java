@@ -3,6 +3,7 @@ package cs131.pa1.filter.concurrent;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import cs131.pa1.filter.Message;
 
@@ -11,7 +12,7 @@ public class ConcurrentCommandBuilder {
 	public static ConcurrentFilter createFiltersFromCommand(String command){
 		//initialize the list that will hold all of the filters
 				//This is a LinkedBlockingQueue now so if the queue is empty when we use filters.take() it will wait until a thread finishes and then use that (Or wait forever)
-				List<ConcurrentFilter> filters = new LinkedBlockingQueue<ConcurrentFilter>();//This should be changed to LinkedBlockingQueue
+				LinkedBlockingQueue<ConcurrentFilter> filters = new LinkedBlockingQueue<ConcurrentFilter>();//This should be changed to LinkedBlockingQueue
 				//adding whitespace so that string splitting doesn't bug
 				command = " " + command + " ";
 				//removing the final filter here
@@ -37,7 +38,7 @@ public class ConcurrentCommandBuilder {
 				filters.add(fin);
 				
 				if(linkFilters(filters, command) == true){
-					return filters.get(0); //Maybe should be changed to filters.peek();
+					return filters.peek(); //Maybe should be changed to filters.peek();
 				} else {
 					return null;
 				}
@@ -115,7 +116,7 @@ public class ConcurrentCommandBuilder {
 		return filter;
 	}
 
-	private static boolean linkFilters(List<ConcurrentFilter> filters, String command){ //This may need to be changed so it calls join() on our thready filters.
+	private static boolean linkFilters(LinkedBlockingQueue<ConcurrentFilter> filters, String command){ //This may need to be changed so it calls join() on our thready filters.
 		Iterator<ConcurrentFilter> iter = filters.iterator();
 		ConcurrentFilter prev;
 		ConcurrentFilter curr = iter.next();

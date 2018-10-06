@@ -26,7 +26,7 @@ public class ConcurrentREPL {
 					//filterlist = (ConcurrentFilter) filterlist.getNext();
 					//**All commented above is the original code
 					Thread T = new Thread(filterlist);
-					T.Start();
+					T.start();
 					filterlist = (ConcurrentFilter) filterlist.getNext();
 				}
 			}
