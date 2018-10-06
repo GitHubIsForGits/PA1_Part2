@@ -5,7 +5,16 @@ import java.util.Queue;
 import cs131.pa1.filter.Filter;
 
 
-public abstract class ConcurrentFilter extends Filter {
+//New stuff
+	public interface Runnable{
+		public abstract void run() {
+			ConcurrentFilter CF = new ConcurrentFilter;
+			Thread t = new Thread(CF);
+			t.start();//Run contains all code that should be executed by the thread
+		}
+	}
+
+public abstract class ConcurrentFilter extends Filter implements Runnable {
 	
 	protected Queue<String> input;
 	protected Queue<String> output;
@@ -50,5 +59,16 @@ public abstract class ConcurrentFilter extends Filter {
 	}
 	
 	protected abstract String processLine(String line);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
