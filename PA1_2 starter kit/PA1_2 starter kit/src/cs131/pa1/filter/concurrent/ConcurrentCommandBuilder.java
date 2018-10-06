@@ -116,7 +116,7 @@ public class ConcurrentCommandBuilder {
 		return filter;
 	}
 
-	private static boolean linkFilters(LinkedBlockingQueue<ConcurrentFilter> filters, String command){ //This may need to be changed so it calls join() on our thready filters.
+	private static boolean linkFilters(LinkedBlockingQueue<ConcurrentFilter> filters, String command){ 
 		Iterator<ConcurrentFilter> iter = filters.iterator();
 		ConcurrentFilter prev;
 		ConcurrentFilter curr = iter.next();
