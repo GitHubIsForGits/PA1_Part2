@@ -22,7 +22,11 @@ public class ConcurrentREPL {
 				//building the filters list from the command
 				ConcurrentFilter filterlist = ConcurrentCommandBuilder.createFiltersFromCommand(command);
 				while(filterlist != null) {//The execution of the command. I believe this is where we .start stuff.
-					filterlist.process();
+					//filterlist.process();
+					//filterlist = (ConcurrentFilter) filterlist.getNext();
+					//**All commented above is the original code
+					Thread T = new Thread(filterlist);
+					T.Start();
 					filterlist = (ConcurrentFilter) filterlist.getNext();
 				}
 			}
