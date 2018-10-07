@@ -22,18 +22,22 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 			} else if(!command.trim().equals("")) {//Currently the problem is we dont wait for the line to finish before printing newcommand. 
 				//building the filters list from the command
 				ConcurrentFilter filterlist = ConcurrentCommandBuilder.createFiltersFromCommand(command);
+				
+				
 				while(filterlist != null) {//The execution of the command. I believe this is where we .start stuff.
-					if(T1 != null) {//I dont think this should be here
+					if(T1 != null) {//This forces the list to run sequentially. It is wrong. 
 						try {
 							T1.join(1000);
 						} catch (InterruptedException e) {
 							throw new IllegalStateException();
 						}
-					}
+					}//We have to find a way to join threads if they require input, run all filters concurrently.
+					
 					Thread T = new Thread(filterlist);
 					T.start();
 					filterlist = (ConcurrentFilter) filterlist.getNext();
 					T1 = T; //The last thread
+					
 				}
 				try {//Waiting for T1 to finish
 					T1.join(1000);
