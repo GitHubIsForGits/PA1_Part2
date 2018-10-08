@@ -42,7 +42,7 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 				String[] nee = command.split(" ");
 				char[] tred = nee[1].toCharArray();
 				if (tred.length == 1) {
-					int i = tred[0].toInteger();
+					int i = Character.getNumericValue(tred[0]);
 					//Make the code to kill the thread in position i
 				}
 			} 
