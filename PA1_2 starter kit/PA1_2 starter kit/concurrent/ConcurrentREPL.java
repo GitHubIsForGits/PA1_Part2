@@ -36,7 +36,7 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 							stillRunnin.remove(k);
 						}
 						else if(t.isAlive()) {
-							System.out.println(k +". "+ t.toString());
+							System.out.println(k +". "+ t.toString());// Need a way to print the command
 						}
 					}
 					
