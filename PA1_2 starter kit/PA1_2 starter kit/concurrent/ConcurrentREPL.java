@@ -8,7 +8,7 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 
 	static String currentWorkingDirectory;
 	static Thread T1 = null;
-	static TreeMap <Integer, Thread> stillRunnin; //Map of all threads running with index as keys
+	static TreeMap <Integer, LinkedList<Thread>> stillRunnin; //Map of all threads running with index as keys
 	
 	public static void main(String[] args){
 		currentWorkingDirectory = System.getProperty("user.dir");
@@ -29,27 +29,31 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 			//Part 2 stuff
 			else if(command.equals("repl_jobs")) {
 				if (!stillRunnin.isEmpty()) {
-					for (Map.Entry<Integer,Thread> entry: stillRunnin.entrySet()) {
-						Thread t = entry.getValue();
+					for (Map.Entry<Integer,LinkedList<Thread>> entry: stillRunnin.entrySet()) {
+						LinkedList<Thread> tList = entry.getValue();
 						int k = entry.getKey();
-						if(!t.isAlive()) {
-							stillRunnin.remove(k);
-						}
-						else if(t.isAlive()) {
-							System.out.println(k +". "+ t.toString());// Need a way to print the command
-						}
+						for (Thread t : tList) {
+							if(!t.isAlive()) {
+								stillRunnin.remove(k);
+							}
+							else if(t.isAlive()) {
+								System.out.println(k +". "+ t.toString());//Need a way to print the exact command
+							}
+					}	
 					}
-					
 				}
-				
 			} 
 			else if(command.startsWith("kill")) {
 				String[] nee = command.split(" ");
 				char[] tred = nee[1].toCharArray();
 				if (tred.length == 1) {
 					int i = Character.getNumericValue(tred[0]);
-					stillRunnin.get(i).interrupt();//Not sure if this is ideal, might change
-					stillRunnin.remove(i); //Removes thread that was killed from map
+					LinkedList <Thread> tList = stillRunnin.get(i);
+					for (Thread t : tList) {
+						t.interrupt();
+					}
+					stillRunnin.remove(i);
+					
 				}
 			} 
 			else if(command.endsWith("&")) {
