@@ -29,17 +29,19 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 			//Part 2 stuff
 			else if(command.equals("repl_jobs")) {
 				if (!stillRunnin.isEmpty()) {
-					for (Thread t: stillRunnin) {
-					
+					for (Map.Entry<Integer,Thread> entry: stillRunnin.entrySet()) {
+						Thread t = entry.getValue();
+						int k = entry.getKey();
 						if(!t.isAlive()) {
-							stillRunnin.remove(t);
+							stillRunnin.remove(k);
 						}
 						else if(t.isAlive()) {
-							System.out.println(t.toString());
+							System.out.println(k +". "+ t.toString());
 						}
 					}
 					
-				}	
+				}
+				
 			} 
 			else if(command.startsWith("kill")) {
 				String[] nee = command.split(" ");
