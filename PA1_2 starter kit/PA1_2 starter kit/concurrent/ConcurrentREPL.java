@@ -29,14 +29,12 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 			//Part 2 stuff
 			else if(command.equals("repl_jobs")) {
 				if (!stillRunnin.isEmpty()) {
-					int index = 1;
 					for (Thread t: stillRunnin) {
 					
 						if(!t.isAlive()) {
 							stillRunnin.remove(t);
 						}
-						System.out.println(index+". "+t.toString());
-						index++;
+						System.out.println(t.toString());
 					}
 					
 				}	
