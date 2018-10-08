@@ -48,7 +48,7 @@ public abstract class ConcurrentFilter extends Filter implements Runnable {
 	}
 	
 	@Override
-	public boolean isDone() {
+	public boolean isDone() { //This has to be changed somehow. 
 		//Old code was return input.size() == 0;
 		//return this.aliveCheck;//New code
 		return input.size() == 0;
