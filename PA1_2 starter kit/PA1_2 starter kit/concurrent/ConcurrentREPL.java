@@ -34,7 +34,9 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 						if(!t.isAlive()) {
 							stillRunnin.remove(t);
 						}
+						else if(t.isAlive()) {
 						System.out.println(t.toString());
+						}
 					}
 					
 				}	
