@@ -29,7 +29,7 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 			//Part 2 stuff
 			else if(command.equals("repl_jobs")) {
 				if (!stillRunnin.isEmpty()) {
-					while (Thread t: stillRunnin) {
+					for (Thread t: stillRunnin) {
 						if(!t.isAlive()) {
 							stillRunnin.remove(t);
 						}
@@ -41,7 +41,7 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 			else if(command.startsWith("kill")) {
 				String[] nee = command.split(" ");
 				char[] tred = nee[1].toCharArray();
-				if (tred.length() == 1) {
+				if (tred.length == 1) {
 					int i = tred[0].toInteger();
 					//Make the code to kill the thread in position i
 				}
@@ -50,7 +50,7 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 				String[] noAmp = command.split("&");
 				String commandCut = noAmp[0].trim();
 				if(!commandCut.equals("")) {
-					ConcurrentFilter filterList = ConcurrentCommandBuilder.createFiltersFromCommand(commandCut);
+					ConcurrentFilter filterlist = ConcurrentCommandBuilder.createFiltersFromCommand(commandCut);
 					while(filterlist != null) {//The execution of the command. I believe this is where we .start stuff.
 						Thread T = new Thread(filterlist);
 						T.start();
