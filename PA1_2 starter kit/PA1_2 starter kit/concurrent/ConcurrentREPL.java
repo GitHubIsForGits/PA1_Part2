@@ -25,13 +25,13 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 				
 				
 				while(filterlist != null) {//The execution of the command. I believe this is where we .start stuff.
-					if(T1 != null) {//This forces the list to run sequentially. It is wrong. 
+					/*if(T1 != null) {//This forces the list to run sequentially. It is wrong. 
 						try {
 							T1.join(1000);
 						} catch (InterruptedException e) {
 							throw new IllegalStateException();
 						}
-					}//We have to find a way to join threads if they require input, run all filters concurrently.
+					}//We have to find a way to join threads if they require input, run all filters concurrently. */
 					
 					Thread T = new Thread(filterlist);
 					T.start();

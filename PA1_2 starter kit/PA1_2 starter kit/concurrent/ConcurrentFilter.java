@@ -44,14 +44,15 @@ public abstract class ConcurrentFilter extends Filter implements Runnable {
 			if (processedLine != null){
 				output.add(processedLine);
 			}
-		}	
+		}
+		aliveCheck = true;
 	}
 	
 	@Override
 	public boolean isDone() {
-		//Old code was return input.size() == 0;
-		//return this.aliveCheck;//New code
-		return input.size() == 0;
+		//return input.size() == 0; //Old code 
+		return this.aliveCheck;//New code
+		
 	}
 	
 	protected abstract String processLine(String line);
@@ -65,8 +66,7 @@ public abstract class ConcurrentFilter extends Filter implements Runnable {
 	@Override //Not sure how much should be in here but this method is extremely important. I know it has to call process at some point.
 	public void run() {//Run contains all code that should be executed by the thread. This is the best I've got for now.
 		process();
-		
-		aliveCheck = true;//We just want our run to begin executing the code the filter represents.
+		//We just want our run to begin executing the code the filter represents.
 		//Don't call run directly. To start threads make a thread with Thread t = new Thread(FilterOfTheProperType())
 		//t.start(); will get the thread going.
 	}
