@@ -2,13 +2,13 @@ package cs131.pa1.filter.concurrent;
 
 import cs131.pa1.filter.Message;
 import java.util.Scanner;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.*;
 
 public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100% sure yet.
 
 	static String currentWorkingDirectory;
 	static Thread T1 = null;
-	static LinkedBlockingQueue<Thread> stillRunnin; //List of still running threads
+	static TreeMap <Integer, Thread> stillRunnin; //Map of all threads running with index as keys
 	
 	public static void main(String[] args){
 		currentWorkingDirectory = System.getProperty("user.dir");
