@@ -46,6 +46,7 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 				char[] tred = nee[1].toCharArray();
 				if (tred.length == 1) {
 					int i = Character.getNumericValue(tred[0]);
+					stillRunnin.remove(i);
 					//Make the code to kill the thread in position i
 				}
 			} 
