@@ -16,10 +16,22 @@ public class ConcurrentCommandBuilder {
 				//adding whitespace so that string splitting doesn't bug
 				command = " " + command + " ";
 				//removing the final filter here
+				
+				
+				//Around here we have to check for ampersands.
+				if(command.endsWith("&")) {
+					
+				}
+				
+				
+				
 				String truncCommand = adjustCommandToRemoveFinalFilter(command);
 				if(truncCommand == null) {
 					return null;
 				}
+				
+				
+				
 				//for all the commands, split them by pipes, construct each filter, and add them to the filters list.
 				String[] commands = truncCommand.split("\\|");
 				for(int i = 0; i < commands.length; i++) {
