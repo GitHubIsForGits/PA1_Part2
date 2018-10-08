@@ -8,7 +8,8 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 
 	static String currentWorkingDirectory;
 	static Thread T1 = null;
-	static TreeMap <Integer, LinkedList<Thread>> stillRunnin; //Map of all threads running with index as keys
+	static TreeMap <Integer, LinkedList<Thread>> stillRunnin; //Map of all threads in each command running with indexes as keys
+	static int mapIndex = 1;//Increments as more background processes are added
 	
 	public static void main(String[] args){
 		currentWorkingDirectory = System.getProperty("user.dir");
@@ -59,15 +60,18 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 			else if(command.endsWith("&")) {
 				String[] noAmp = command.split("&");
 				String commandCut = noAmp[0].trim();
+				LinkedList<Thread> threads = new LinkedList<Thread>();//List of all threads in command
 				if(!commandCut.equals("")) {
 					ConcurrentFilter filterlist = ConcurrentCommandBuilder.createFiltersFromCommand(commandCut);
-					while(filterlist != null) {//The execution of the command. I believe this is where we .start stuff.
+					while(filterlist != null) {
 						Thread T = new Thread(filterlist);
 						T.start();
+						threads.add(T);
 						filterlist = (ConcurrentFilter) filterlist.getNext();
 						T1 = T; //The last thread	
 					}
-					
+					stillRunnin.put(mapIndex, threads);
+					mapIndex++;
 				}
 				
 				
