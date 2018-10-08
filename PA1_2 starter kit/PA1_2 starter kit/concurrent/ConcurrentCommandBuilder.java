@@ -18,12 +18,6 @@ public class ConcurrentCommandBuilder {
 				//removing the final filter here
 				
 				
-				//Around here we have to check for ampersands.
-				if(command.endsWith("&")) {
-					
-				}
-				
-				
 				
 				String truncCommand = adjustCommandToRemoveFinalFilter(command);
 				if(truncCommand == null) {
@@ -37,7 +31,7 @@ public class ConcurrentCommandBuilder {
 				for(int i = 0; i < commands.length; i++) {
 					ConcurrentFilter filter = constructFilterFromSubCommand(commands[i].trim());
 					if(filter != null) {
-						filters.add(filter); //With threads we may have to connect this differently.
+						filters.add(filter);
 					} else {
 						return null;
 					}
