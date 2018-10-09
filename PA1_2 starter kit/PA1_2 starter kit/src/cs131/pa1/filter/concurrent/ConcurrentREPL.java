@@ -4,7 +4,7 @@ import cs131.pa1.filter.Message;
 import java.util.Scanner;
 import java.util.*;
 
-public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100% sure yet.
+public class ConcurrentREPL {
 
 	static String currentWorkingDirectory;
 	static Thread T1 = null;
@@ -27,24 +27,23 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 			
 			
 			
-			//Part 2 stuff
 			else if(command.trim().equals("repl_jobs")) {
 				if(stillRunnin.size() == 0) {
 					
-				} else if(!stillRunnin.isEmpty()) {
+				} else if(!stillRunnin.isEmpty()) { // Create an iterator to avoid ConcurrentModificationException
 					Iterator<Map.Entry<Integer, ThreadAndCommand>> entries = stillRunnin.entrySet().iterator();
 					while (entries.hasNext()) {
 						Map.Entry<Integer, ThreadAndCommand> entry = entries.next();
 						entries.remove();
-						if(entry == null) {
+						if(entry == null) { //Handles case with an empty map
 							continue;
 						}
 						int k = entry.getKey();
 						ThreadAndCommand tNc = entry.getValue();
-						if(!tNc.getT().isAlive()) {
+						if(!tNc.getT().isAlive()) {//Removes processes from map if they are completed
 							stillRunnin.remove(k);
 						} else if(tNc.getT().isAlive()){
-							System.out.println("	"+k +". "+ tNc.toString()+" &");
+							System.out.println("	"+k +". "+ tNc.toString()+" &"); //Prints ou the command
 						}
 					}	
 				}
