@@ -67,7 +67,7 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 				if(!(oof == null)) {
 					if(oof.getT().isAlive()) {//I check for alive here, I think thats right.
 						oof.getT().interrupt();
-						stillRunnin.remove(target);	
+						stillRunnin.remove(target);
 					} 
 				}
 				
