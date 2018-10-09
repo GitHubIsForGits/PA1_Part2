@@ -29,7 +29,6 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 			
 			//Part 2 stuff
 			else if(command.trim().equals("repl_jobs")) {
-				//System.out.println("Enterred repl_jobs"); Testin
 				if(stillRunnin.size() == 0) {
 					
 				} else if(!stillRunnin.isEmpty()) {
@@ -68,7 +67,7 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 				int target = Integer.parseInt(tred);
 				ThreadAndCommand oof = stillRunnin.get(target);
 				if(!(oof == null)) {
-					if(oof.getT().isAlive()) {//I check for alive here, I think thats right.
+					if(oof.getT().isAlive()) {
 						oof.getT().interrupt();
 						stillRunnin.remove(target);	
 					} 
@@ -76,11 +75,9 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 				
 			}
 			else if(command.endsWith("&")) {
-				//System.out.println("Made a time delay command"); Testin
 				
 				String[] noAmp = command.split("&");
 				String commandCut = noAmp[0].trim();
-				//LinkedList<Thread> threads = new LinkedList<Thread>();//List of all threads in command
 				//I changed this area so we are only passing the last thread of the command, so when that one is all finished it should be done.
 				if(!commandCut.equals("")) {
 					ConcurrentFilter filterlist = ConcurrentCommandBuilder.createFiltersFromCommand(commandCut);
@@ -98,7 +95,6 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 				
 				
 			}
-			//End of part 2 stuff
 			else if(!command.trim().equals("")) {
 				//building the filters list from the command
 				ConcurrentFilter filterlist = ConcurrentCommandBuilder.createFiltersFromCommand(command);
