@@ -76,7 +76,7 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 					while(filterlist != null) {
 						Thread T = new Thread(filterlist);
 						T.start();
-						ThreadAndCommand thisGuy = new ThreadAndCommand(T, command);
+						ThreadAndCommand thisGuy = new ThreadAndCommand(T, commandCut);
 						filterlist = (ConcurrentFilter) filterlist.getNext();
 						T1 = T; //The last thread	
 					}
