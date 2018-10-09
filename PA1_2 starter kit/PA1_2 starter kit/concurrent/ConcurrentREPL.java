@@ -43,16 +43,16 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 			}
 			else if(command.startsWith("kill")) {
 				String[] nee = command.split(" ");
-				char[] tred = nee[1].toCharArray();
-				if (tred.length == 1) {
-					int i = Character.getNumericValue(tred[0]);
-					LinkedList <Thread> tList = stillRunnin.get(i);
-					for (Thread t : tList) {
-						t.kill();
-					}
-					stillRunnin.remove(i);
-					
+				String tred = nee[1].toCharArray();
+				int target = Integer.parseInt(tred);
+				ThreadAndCommand oof = stillRunnin.get(target);
+				if(oof.getT().isAlive()) {//I check for alive here, I think thats right.
+					oof.getT().interrupt();
+					stillRunnin.remove(i);		
+				} else {
+					//Dunno what to do here. I dont think anything.
 				}
+	
 			} 
 			else if(command.endsWith("&")) {
 				String[] noAmp = command.split("&");
