@@ -47,12 +47,12 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 			else if(command.startsWith("kill")) {
 				String[] nee = command.split(" ");
 				if(nee.length == 2) {				
-					String tred = nee[1].toCharArray();
+					String tred = nee[1];
 					int target = Integer.parseInt(tred);
 					ThreadAndCommand oof = stillRunnin.get(target);
 					if(oof.getT().isAlive()) {//I check for alive here, I think thats right.
 						oof.getT().interrupt();
-						stillRunnin.remove(i);
+						stillRunnin.remove(target);
 					}
 				} else {
 					//Dunno what to do here. I dont think anything.
