@@ -8,7 +8,7 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 
 	static String currentWorkingDirectory;
 	static Thread T1 = null;
-	static TreeMap <Integer, Thread> stillRunnin; //Map of all threads in each command running with indexes as keys //Changed so it only accepts a single thread (the last thread which when finished means the command is finished)
+	static TreeMap <Integer, ThreadAndCommand> stillRunnin; //Map of all threads in each command running with indexes as keys //Changed so it only accepts a single thread (the last thread which when finished means the command is finished)
 	static int mapIndex = 1;//Increments as more background processes are added
 	
 	public static void main(String[] args){
@@ -30,20 +30,17 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 			//Part 2 stuff
 			else if(command.equals("repl_jobs")) {
 				if (!stillRunnin.isEmpty()) {
-					for (Map.Entry<Integer,LinkedList<Thread>> entry: stillRunnin.entrySet()) {
-						LinkedList<Thread> tList = entry.getValue();
+					for (Map.Entry<Integer, ThreadAndCommand> entry: stillRunnin.entrySet()) {
 						int k = entry.getKey();
-						for (Thread t : tList) {
-							if(!t.isAlive()) {
-								stillRunnin.remove(k);
-							}
-							else if(t.isAlive()) {
-								System.out.println(k +". "+ t.toString());//Need a way to print the exact command
-							}
+						ThreadAndCommand tNc = entry.getValue();
+						if(!tNc.getT().isAlive()) {
+							stillRunnin.remove(k);
+						} else if(tNc.getT().isAlive()){
+							System.out.println(k +". "+ tNc.toString());//Need a way to print the exact command
+						}
 					}	
-					}
 				}
-			} 
+			}
 			else if(command.startsWith("kill")) {
 				String[] nee = command.split(" ");
 				char[] tred = nee[1].toCharArray();
@@ -67,11 +64,11 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 					while(filterlist != null) {
 						Thread T = new Thread(filterlist);
 						T.start();
-						//threads.add(T);
+						ThreadAndCommand thisGuy = new ThreadAndCommand(T, command);
 						filterlist = (ConcurrentFilter) filterlist.getNext();
 						T1 = T; //The last thread	
 					}
-					stillRunnin.put(mapIndex, T1); //Changed
+					stillRunnin.put(mapIndex, thisGuy); //Changed
 					mapIndex++;
 				}
 				
@@ -114,8 +111,25 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 	}
 }
 
-public class ThreadAndCommand {
-	private Thread 
+public class ThreadAndCommand{
+	private Thread tee;
+	private string com;
+	
+	public ThreadAndCommand(Thread T, String C){
+		this.tee = T;
+		this.com = C;
+		return this;
+	}
+	
+	public Thread getT(){//Return the thread
+		return tee;
+	}
+	
+	public Thread toString(){//Return the command
+		return com;
+	}
+	
+	
 }
 
 
