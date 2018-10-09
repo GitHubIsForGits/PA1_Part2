@@ -4,7 +4,7 @@ import cs131.pa1.filter.Message;
 import java.util.Scanner;
 import java.util.*;
 
-public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100% sure yet.
+public class ConcurrentREPL {
 
 	static String currentWorkingDirectory;
 	static Thread T1 = null;
@@ -27,22 +27,23 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 			
 			
 			
-			//Part 2 stuff
 			else if(command.trim().equals("repl_jobs")) {
-				//System.out.println("Enterred repl_jobs"); Testin
 				if(stillRunnin.size() == 0) {
 					
-				} else if(!stillRunnin.isEmpty()) {
-					for (Map.Entry<Integer, ThreadAndCommand> entry : stillRunnin.entrySet()) {
-						if(entry == null) {
+				} else if(!stillRunnin.isEmpty()) { // Create an iterator to avoid ConcurrentModificationException
+					Iterator<Map.Entry<Integer, ThreadAndCommand>> entries = stillRunnin.entrySet().iterator();
+					while (entries.hasNext()) {
+						Map.Entry<Integer, ThreadAndCommand> entry = entries.next();
+						entries.remove();
+						if(entry == null) { //Handles case with an empty map
 							continue;
 						}
 						int k = entry.getKey();
 						ThreadAndCommand tNc = entry.getValue();
-						if(!tNc.getT().isAlive()) {
+						if(!tNc.getT().isAlive()) {//Removes processes from map if they are completed
 							stillRunnin.remove(k);
 						} else if(tNc.getT().isAlive()){
-							System.out.println("	"+k +". "+ tNc.toString()+" &");
+							System.out.println("	"+k +". "+ tNc.toString()+" &"); //Prints ou the command
 						}
 					}	
 				}
@@ -65,7 +66,7 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 				int target = Integer.parseInt(tred);
 				ThreadAndCommand oof = stillRunnin.get(target);
 				if(!(oof == null)) {
-					if(oof.getT().isAlive()) {//I check for alive here, I think thats right.
+					if(oof.getT().isAlive()) {
 						oof.getT().interrupt();
 						stillRunnin.remove(target);
 					} 
@@ -73,11 +74,9 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 				
 			}
 			else if(command.endsWith("&")) {
-				//System.out.println("Made a time delay command"); Testin
 				
 				String[] noAmp = command.split("&");
 				String commandCut = noAmp[0].trim();
-				//LinkedList<Thread> threads = new LinkedList<Thread>();//List of all threads in command
 				//I changed this area so we are only passing the last thread of the command, so when that one is all finished it should be done.
 				if(!commandCut.equals("")) {
 					ConcurrentFilter filterlist = ConcurrentCommandBuilder.createFiltersFromCommand(commandCut);
@@ -95,7 +94,6 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 				
 				
 			}
-			//End of part 2 stuff
 			else if(!command.trim().equals("")) {
 				//building the filters list from the command
 				ConcurrentFilter filterlist = ConcurrentCommandBuilder.createFiltersFromCommand(command);
