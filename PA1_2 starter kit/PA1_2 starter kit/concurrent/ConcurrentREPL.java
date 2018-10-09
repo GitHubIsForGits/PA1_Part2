@@ -8,7 +8,7 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 
 	static String currentWorkingDirectory;
 	static Thread T1 = null;
-	static TreeMap <Integer, ThreadAndCommand> stillRunnin; //Map of all threads in each command running with indexes as keys //Changed so it only accepts a single thread (the last thread which when finished means the command is finished)
+	static TreeMap <Integer, ThreadAndCommand> stillRunnin = null; //Map of all threads in each command running with indexes as keys //Changed so it only accepts a single thread (the last thread which when finished means the command is finished)
 	static int mapIndex = 1;//Increments as more background processes are added
 	
 	public static void main(String[] args){
@@ -28,9 +28,10 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 			
 			
 			//Part 2 stuff
-			else if(command.equals("repl_jobs")) {
-				if (!stillRunnin.isEmpty()) {
-					for (Map.Entry<Integer, ThreadAndCommand> entry: stillRunnin.entrySet()) {
+			else if(command.trim().equals("repl_jobs")) {
+				System.out.println("Enterred repl_jobs");
+				if(!stillRunnin.isEmpty()) {
+					while (Map.Entry<Integer, ThreadAndCommand> entry: stillRunnin.entrySet()) {
 						int k = entry.getKey();
 						ThreadAndCommand tNc = entry.getValue();
 						if(!tNc.getT().isAlive()) {
@@ -40,21 +41,27 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 						}
 					}	
 				}
+				
+				
 			}
 			else if(command.startsWith("kill")) {
 				String[] nee = command.split(" ");
-				String tred = nee[1].toCharArray();
-				int target = Integer.parseInt(tred);
-				ThreadAndCommand oof = stillRunnin.get(target);
-				if(oof.getT().isAlive()) {//I check for alive here, I think thats right.
-					oof.getT().interrupt();
-					stillRunnin.remove(i);		
+				if(nee.length == 2) {				
+					String tred = nee[1].toCharArray();
+					int target = Integer.parseInt(tred);
+					ThreadAndCommand oof = stillRunnin.get(target);
+					if(oof.getT().isAlive()) {//I check for alive here, I think thats right.
+						oof.getT().interrupt();
+						stillRunnin.remove(i);
+					}
 				} else {
 					//Dunno what to do here. I dont think anything.
 				}
 	
 			} 
 			else if(command.endsWith("&")) {
+				System.out.println("Made a time delay command");
+				
 				String[] noAmp = command.split("&");
 				String commandCut = noAmp[0].trim();
 				//LinkedList<Thread> threads = new LinkedList<Thread>();//List of all threads in command
@@ -75,13 +82,6 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 				
 			}
 			//End of part 2 stuff
-			
-			
-			
-			
-			
-			
-			
 			else if(!command.trim().equals("")) {
 				//building the filters list from the command
 				ConcurrentFilter filterlist = ConcurrentCommandBuilder.createFiltersFromCommand(command);
@@ -110,27 +110,11 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 	
 	}
 }
+	
 
-public class ThreadAndCommand{
-	private Thread tee;
-	private string com;
-	
-	public ThreadAndCommand(Thread T, String C){
-		this.tee = T;
-		this.com = C;
-		return this;
-	}
-	
-	public Thread getT(){//Return the thread
-		return tee;
-	}
-	
-	public Thread toString(){//Return the command
-		return com;
-	}
 	
 	
-}
+
 
 
 		
