@@ -33,7 +33,10 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 				if(stillRunnin.size() == 0) {
 					
 				} else if(!stillRunnin.isEmpty()) {
-					for (Map.Entry<Integer, ThreadAndCommand> entry : stillRunnin.entrySet()) {
+					Iterator<Map.Entry<Integer, ThreadAndCommand>> entries = stillRunnin.entrySet().iterator();
+					while (entries.hasNext()) {
+						Map.Entry<Integer, ThreadAndCommand> entry = entries.next();
+						entries.remove();
 						if(entry == null) {
 							continue;
 						}
