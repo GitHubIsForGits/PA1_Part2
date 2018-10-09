@@ -8,7 +8,7 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 
 	static String currentWorkingDirectory;
 	static Thread T1 = null;
-	static TreeMap <Integer, ThreadAndCommand> stillRunnin = null; //Map of all threads in each command running with indexes as keys //Changed so it only accepts a single thread (the last thread which when finished means the command is finished)
+	static TreeMap <Integer, ThreadAndCommand> stillRunnin = new TreeMap<Integer, ThreadAndCommand>(); //Map of all threads in each command running with indexes as keys //Changed so it only accepts a single thread (the last thread which when finished means the command is finished)
 	static int mapIndex = 1;//Increments as more background processes are added
 	
 	public static void main(String[] args){
@@ -30,7 +30,9 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 			//Part 2 stuff
 			else if(command.trim().equals("repl_jobs")) {
 				System.out.println("Enterred repl_jobs");
-				if(!stillRunnin.isEmpty()) {
+				if(stillRunnin.size() == 0) {
+					
+				} else if(!stillRunnin.isEmpty()) {
 					for (Map.Entry<Integer, ThreadAndCommand> entry : stillRunnin.entrySet()) {
 						int k = entry.getKey();
 						ThreadAndCommand tNc = entry.getValue();
