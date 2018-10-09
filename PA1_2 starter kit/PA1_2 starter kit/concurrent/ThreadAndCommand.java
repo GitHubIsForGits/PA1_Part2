@@ -1,3 +1,5 @@
+// New class created so that repl_jobs can print out the command associated with each thread
+
 public class ThreadAndCommand{
 	private Thread tee;
 	private string com;
