@@ -46,19 +46,24 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 			}
 			else if(command.startsWith("kill")) {
 				String[] nee = command.split(" ");
-				if(nee.length == 2) {				
-					String tred = nee[1];
-					int target = Integer.parseInt(tred);
-					ThreadAndCommand oof = stillRunnin.get(target);
-					if(oof.getT().isAlive()) {//I check for alive here, I think thats right.
-						oof.getT().interrupt();
-						stillRunnin.remove(target);
-					}
-				} else {
-					//Dunno what to do here. I dont think anything.
-				}
-	
-			} 
+				if (nee.length == 1) {// Checks that a parameter was given 
+					System.out.print(Message.REQUIRES_PARAMETER.with_parameter("kill"));
+					System.out.print(Message.NEWCOMMAND.toString());
+					continue;
+				}	
+				String tred = nee[1];
+				if (!tred.matches("[0-9]+")){// Checks that the parameter is a number
+					System.out.print(Message.INVALID_PARAMETER.with_parameter(command));
+					System.out.print(Message.NEWCOMMAND.toString());
+					continue;
+				}			
+				int target = Integer.parseInt(tred);
+				ThreadAndCommand oof = stillRunnin.get(target);
+				if(oof.getT().isAlive()) {//I check for alive here, I think thats right.
+					oof.getT().interrupt();
+					stillRunnin.remove(target);	
+				} 
+			}
 			else if(command.endsWith("&")) {
 				System.out.println("Made a time delay command");
 				
