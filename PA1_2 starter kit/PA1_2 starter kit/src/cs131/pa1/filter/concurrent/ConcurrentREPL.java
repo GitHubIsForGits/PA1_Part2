@@ -34,12 +34,15 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 					
 				} else if(!stillRunnin.isEmpty()) {
 					for (Map.Entry<Integer, ThreadAndCommand> entry : stillRunnin.entrySet()) {
+						if(entry == null) {
+							continue;
+						}
 						int k = entry.getKey();
 						ThreadAndCommand tNc = entry.getValue();
 						if(!tNc.getT().isAlive()) {
 							stillRunnin.remove(k);
 						} else if(tNc.getT().isAlive()){
-							System.out.println("	"+k +". "+ tNc.toString()+" &");//Need a way to print the exact command
+							System.out.println("	"+k +". "+ tNc.toString()+" &");
 						}
 					}	
 				}
