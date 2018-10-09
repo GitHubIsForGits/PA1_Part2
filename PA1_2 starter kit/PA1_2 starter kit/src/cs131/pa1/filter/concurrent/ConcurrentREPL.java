@@ -29,7 +29,7 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 			
 			//Part 2 stuff
 			else if(command.trim().equals("repl_jobs")) {
-				System.out.println("Enterred repl_jobs");
+				//System.out.println("Enterred repl_jobs"); Testin
 				if(stillRunnin.size() == 0) {
 					
 				} else if(!stillRunnin.isEmpty()) {
@@ -67,7 +67,7 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 				} 
 			}
 			else if(command.endsWith("&")) {
-				System.out.println("Made a time delay command");
+				//System.out.println("Made a time delay command"); Testin
 				
 				String[] noAmp = command.split("&");
 				String commandCut = noAmp[0].trim();
