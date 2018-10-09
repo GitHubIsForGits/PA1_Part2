@@ -61,10 +61,13 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 				}			
 				int target = Integer.parseInt(tred);
 				ThreadAndCommand oof = stillRunnin.get(target);
-				if(oof.getT().isAlive()) {//I check for alive here, I think thats right.
-					oof.getT().interrupt();
-					stillRunnin.remove(target);	
-				} 
+				if(!(oof == null)) {
+					if(oof.getT().isAlive()) {//I check for alive here, I think thats right.
+						oof.getT().interrupt();
+						stillRunnin.remove(target);	
+					} 
+				}
+				
 			}
 			else if(command.endsWith("&")) {
 				//System.out.println("Made a time delay command"); Testin
