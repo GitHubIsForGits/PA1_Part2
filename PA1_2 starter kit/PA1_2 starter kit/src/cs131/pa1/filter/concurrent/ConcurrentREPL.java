@@ -109,11 +109,12 @@ public class ConcurrentREPL {//Part 1 looks like it's finished, but I'm not 100%
 					T1 = T; //The last thread
 					
 				} 
-				
-				try {//Waiting for T1 to finish, so the carrot doesnt get printed over
-					T1.join(1000);
-				} catch (InterruptedException e) {
-					throw new IllegalStateException();
+				if (T1 != null) {
+					try {//Waiting for T1 to finish, so the carrot doesnt get printed over
+						T1.join(1000);
+					} catch (InterruptedException e) {
+						throw new IllegalStateException();
+					}
 				}
 			}
 			
